@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Deposit</title>
+    
+    <link rel="shortcut icon" href="/resources/favicon.ico">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/resources/css/sweetalert2.min.css">
+    <link rel="stylesheet" href="/resources/css/style.css">
+
+</head>
+<body>
+    <div class="container">
+        <div class="table-title mb-4">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h2>Deposit money into customer's account</h2>
+                </div>
+                <div class="col-sm-4">
+                    <a href="/customers" class="btn btn-outline-light"><i class="fa fa-list" aria-hidden="true"></i> <span>Customer list</span></a>
+                </div>
+            </div>
+        </div>
+        <form id="frmDeposit" method="post" >
+            <fieldset class="row g-3">
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Customer ID</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" readonly id="customerId" name="customerId" value="1155" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Full Name</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" readonly id="fullName" name="fullName" value="hhhhhhh" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Current balance ($)</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control num-space" readonly id="balance" name="balance" value="20000" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Transaction Amount ($)</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="transactionAmount" name="transactionAmount" value="" />
+    <!--                            <p th:if="${#fields.hasErrors('transactionAmount')}" th:errorclass="th-error" th:errors="*{transactionAmount}">Name Error</p>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 col-md-12">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-outline-success">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                     Deposit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="footer">
+        <div id="message-alert">
+            
+            
+            <div class="alert-danger hide">
+                <h5>Please correct errors below:</h5>
+            </div>
+            
+        </div>
+    </div>
+
+    
+    <script type="text/javascript" src="/resources/js/sweetalert2.min.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.validate-1.19.3.min.js"></script>
+    <script type="text/javascript" src="/resources/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/resources/js/popper-v1.16.0.min.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.number.js"></script>
+    <script type="text/javascript" src="/resources/js/custom-validation.js"></script>
+    <script type="text/javascript" src="/resources/js/app.js"></script>
+
+
+</body>
+</html>
