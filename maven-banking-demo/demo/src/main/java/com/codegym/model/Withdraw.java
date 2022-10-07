@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -31,4 +32,6 @@ public class Withdraw extends BaseEntity {
     @Digits(integer = 12, fraction = 0)
     @Column(name = "transaction_amount", nullable= false)
     private BigDecimal transactionAmount;
+
+
 }

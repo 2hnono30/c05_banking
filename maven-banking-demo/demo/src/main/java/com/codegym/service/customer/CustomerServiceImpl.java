@@ -2,7 +2,13 @@ package com.codegym.service.customer;
 
 import com.codegym.model.Customer;
 
+import com.codegym.model.Deposit;
+import com.codegym.model.Withdraw;
+import com.codegym.model.dto.DepositDTO;
+import com.codegym.model.dto.WithdrawDTO;
 import com.codegym.repository.CustomerRepository;
+import com.codegym.repository.DepositRepository;
+import com.codegym.repository.WithdrawRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +23,10 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private DepositRepository depositRepository;
+    @Autowired
+    private WithdrawRepository withdrawRepository;
 
     @Override
     public Iterable<Customer> findAll() {
@@ -27,6 +37,36 @@ public class CustomerServiceImpl implements ICustomerService {
     public Iterable<Customer> findAllByDeletedIsFalse() {
         return customerRepository.findAllByDeletedIsFalse();
     }
+
+    @Override
+    public void doDeposit(Long customerId, DepositDTO depositDTO) {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+
+        customerRepository.incrementBalance(depositDTO.getTransactionAmount(), customerId);
+
+        depositRepository.save(depositDTO.toDeposit(customer));
+    }
+
+    @Override
+    public void doWithdraw(Long customerId, WithdrawDTO withdrawDTO) {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+
+        customerRepository.reduceBalance(withdrawDTO.getTransactionAmount(), customerId);
+
+        withdrawRepository.save(withdrawDTO.toWithdraw(customer));
+    }
+
+
+    @Override
+    public Optional<DepositDTO> findByIdWithDepositDTO(Long id) {
+        return customerRepository.findByIdWithDepositDTO(id);
+    }
+
+    @Override
+    public Optional<WithdrawDTO> findByIdWithWithdrawDTO(Long id) {
+        return customerRepository.findByIdWithWithdrawDTO(id);
+    }
+
 
     @Override
     public Optional<Customer> findById(Long id) {

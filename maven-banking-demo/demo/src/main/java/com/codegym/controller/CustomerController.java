@@ -1,9 +1,14 @@
 package com.codegym.controller;
 
 import com.codegym.model.Customer;
+import com.codegym.model.Deposit;
+import com.codegym.model.Withdraw;
+import com.codegym.model.dto.DepositDTO;
+import com.codegym.model.dto.WithdrawDTO;
 import com.codegym.service.customer.ICustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -54,39 +59,39 @@ public class CustomerController {
         }
     }
 
-//    @GetMapping("/deposit/{id}")
-//    public ModelAndView showDepositsForm(@PathVariable Long id) {
-//        ModelAndView modelAndView = new ModelAndView("/customer/deposit");
-//
-//        Optional<com.codegym.model.dto.DepositDTO> depositDTO = customerService.findByIdWithDepositDTO(id);
-//
-//        if (depositDTO.isPresent()) {
-//            modelAndView.addObject("depositDTO", depositDTO.get());
-//            modelAndView.addObject("success", null);
-//            modelAndView.addObject("error", null);
-//            modelAndView.addObject("script", null);
-//            return modelAndView;
-//        } else {
-//            return new ModelAndView("/error.404");
-//        }
-//    }
+    @GetMapping("/deposit/{id}")
+    public ModelAndView showDepositsForm(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("/customer/deposit");
 
-//    @GetMapping("/withdraw/{id}")
-//    public ModelAndView showWithdrawForm(@PathVariable Long id) {
-//        ModelAndView modelAndView = new ModelAndView("/customer/withdraw");
-//
-//        Optional<WithdrawDTO> withdrawDTO = customerService.findByIdWithWithdrawDTO(id);
-//
-//        if (withdrawDTO.isPresent()) {
-//            modelAndView.addObject("withdrawDTO", withdrawDTO.get());
-//            modelAndView.addObject("success", null);
-//            modelAndView.addObject("error", null);
-//            modelAndView.addObject("script", null);
-//            return modelAndView;
-//        } else {
-//            return new ModelAndView("/error.404");
-//        }
-//    }
+        Optional<com.codegym.model.dto.DepositDTO> depositDTO = customerService.findByIdWithDepositDTO(id);
+
+        if (depositDTO.isPresent()) {
+            modelAndView.addObject("depositDTO", depositDTO.get());
+            modelAndView.addObject("success", null);
+            modelAndView.addObject("error", null);
+            modelAndView.addObject("script", null);
+            return modelAndView;
+        } else {
+            return new ModelAndView("/error.404");
+        }
+    }
+
+    @GetMapping("/withdraw/{id}")
+    public ModelAndView showWithdrawForm(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("/customer/withdraw");
+
+        Optional<WithdrawDTO> withdrawDTO = customerService.findByIdWithWithdrawDTO(id);
+
+        if (withdrawDTO.isPresent()) {
+            modelAndView.addObject("withdrawDTO", withdrawDTO.get());
+            modelAndView.addObject("success", null);
+            modelAndView.addObject("error", null);
+            modelAndView.addObject("script", null);
+            return modelAndView;
+        } else {
+            return new ModelAndView("/error.404");
+        }
+    }
 
 //
 //    @GetMapping("/transfer/{id}")
@@ -174,63 +179,63 @@ public class CustomerController {
         return modelAndView;
     }
 
-//    @PostMapping("/deposit/{customerId}")
-//    public ModelAndView doDeposits(@PathVariable Long customerId, @Validated @ModelAttribute DepositDTO depositDTO, BindingResult bindingResult) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("/customer/deposit");
-//
-//        new DepositDTO().validate(depositDTO, bindingResult);
-//
-//        if (bindingResult.hasFieldErrors()){
-//            modelAndView.addObject("script", true);
-//        }
-//        else {
-//            try {
-//                customerService.doDeposit(customerId, depositDTO);
-//
-//                modelAndView.addObject("depositDTO", customerService.findByIdWithDepositDTO(customerId).get());
-//                modelAndView.addObject("success", "Successful deposit transaction");
-//            } catch (DataIntegrityViolationException e) {
-//                e.printStackTrace();
-//                modelAndView.addObject("error", "Invalid data, please contact system administrator");
-//            }
-//        }
-//
-//        return modelAndView;
-//    }
-//
-//    @PostMapping("/withdraw/{customerId}")
-//    public ModelAndView doWithdraw(@PathVariable Long customerId, @Validated @ModelAttribute WithdrawDTO withdrawDTO, BindingResult bindingResult) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("/customer/withdraw");
-//
-//        new WithdrawDTO().validate(withdrawDTO, bindingResult);
-//
-//        if (bindingResult.hasFieldErrors()){
-//            modelAndView.addObject("script", true);
-//        }
-//        else {
-//            Optional<Customer> customer = customerService.findById(customerId);
-//            BigDecimal current_balance = customer.get().getBalance();
-//            BigDecimal transactionAmount = withdrawDTO.getTransactionAmount();
-//
-//            if (current_balance.compareTo(transactionAmount) >= 0) {
-//                try {
-//                    customerService.doWithdraw(customerId, withdrawDTO);
-//
-//                    modelAndView.addObject("withdrawDTO", customerService.findByIdWithWithdrawDTO(customerId).get());
-//                    modelAndView.addObject("success", "Successful withdrawal transaction");
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    modelAndView.addObject("error", "Invalid data, please contact system administrator");
-//                }
-//            } else {
-//                modelAndView.addObject("error", "Customer's balance is not enough to make a withdrawal");
-//            }
-//        }
-//
-//        return modelAndView;
-//    }
+    @PostMapping("/deposit/{customerId}")
+    public ModelAndView doDeposits(@PathVariable Long customerId, @Validated @ModelAttribute DepositDTO depositDTO, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/customer/deposit");
+
+        new DepositDTO().validate(depositDTO, bindingResult);
+
+        if (bindingResult.hasFieldErrors()){
+            modelAndView.addObject("script", true);
+        }
+        else {
+            try {
+                customerService.doDeposit(customerId, depositDTO);
+
+                modelAndView.addObject("depositDTO", customerService.findByIdWithDepositDTO(customerId).get());
+                modelAndView.addObject("success", "Successful deposit transaction");
+            } catch (DataIntegrityViolationException e) {
+                e.printStackTrace();
+                modelAndView.addObject("error", "Invalid data, please contact system administrator");
+            }
+        }
+
+        return modelAndView;
+    }
+
+    @PostMapping("/withdraw/{customerId}")
+    public ModelAndView doWithdraw(@PathVariable Long customerId, @Validated @ModelAttribute WithdrawDTO withdrawDTO, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/customer/withdraw");
+
+        new WithdrawDTO().validate(withdrawDTO, bindingResult);
+
+        if (bindingResult.hasFieldErrors()){
+            modelAndView.addObject("script", true);
+        }
+        else {
+            Optional<Customer> customer = customerService.findById(customerId);
+            BigDecimal current_balance = customer.get().getBalance();
+            BigDecimal transactionAmount = withdrawDTO.getTransactionAmount();
+
+            if (current_balance.compareTo(transactionAmount) >= 0) {
+                try {
+                    customerService.doWithdraw(customerId, withdrawDTO);
+
+                    modelAndView.addObject("withdrawDTO", customerService.findByIdWithWithdrawDTO(customerId).get());
+                    modelAndView.addObject("success", "Successful withdrawal transaction");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    modelAndView.addObject("error", "Invalid data, please contact system administrator");
+                }
+            } else {
+                modelAndView.addObject("error", "Customer's balance is not enough to make a withdrawal");
+            }
+        }
+
+        return modelAndView;
+    }
 
 //    @PostMapping("/transfer/{customerId}")
 //    public ModelAndView doTransfer(@PathVariable Long customerId, @Validated @ModelAttribute TransferDTO transferDTO, BindingResult bindingResult) {
